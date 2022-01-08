@@ -1,23 +1,23 @@
 package main
 
 import (
+	"fmt"
 	"github.com/therecipe/qt/widgets"
 	"os"
-	"fmt"
-	"strconv"
 	"reflect"
+	"strconv"
 )
 
-func operation(label *widgets.QLabel, input_text string){
+func operation(label *widgets.QLabel, input_text string) {
 	res := label.Text()
 	res_int, err := strconv.Atoi(res)
 	add_integer, err := strconv.Atoi(input_text)
 	fmt.Println(res_int, add_integer)
 	res = strconv.Itoa(res_int + add_integer)
-	if err != nil{
+	if err != nil {
 		fmt.Println("error")
 	}
-	fmt.Println(reflect.TypeOf(add_integer), reflect.TypeOf(res_int) )
+	fmt.Println(reflect.TypeOf(add_integer), reflect.TypeOf(res_int))
 	label.SetText(res)
 }
 
@@ -49,19 +49,18 @@ func main() {
 	label := widgets.NewQLabel2("0", nil, 0)
 	layout.AddWidget(label, 0, 0)
 
-
 	// Connect event for button
 	button.ConnectClicked(func(checked bool) {
 		//widgets.QMessageBox_Information(nil, "OK", input.Text(),
 		//widgets.QMessageBox__Ok, widgets.QMessageBox__Ok)
 		fmt.Println(label.Text() == "")
-			
+
 		if label.Text() == "0" {
 
 			label.SetText(input.Text())
-		}else{
+		} else {
 			operation(label, input.Text())
-		}	
+		}
 	})
 
 	// Set main widget as the central widget of the window
