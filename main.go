@@ -14,21 +14,30 @@ func equalize_operation(operator string, first_digit int, second_digit int) int 
 	case "+":
 		result = first_digit + second_digit
 	case "-":
-		result = first_digit + second_digit
+		result = first_digit - second_digit
 	}
 	return result
 }
 
-func operation(label *widgets.QLabel, input_text string) {
+func operation(label *widgets.QLabel, input_text string, operator string) {
 	res := label.Text()
 	res_int, err := strconv.Atoi(res)
 	add_integer, err := strconv.Atoi(input_text)
 	fmt.Println(res_int, add_integer)
-	res = strconv.Itoa(equalize_operation("+", res_int, add_integer))
+	res = strconv.Itoa(equalize_operation(operator, res_int, add_integer))
 	if err != nil {
 		fmt.Println("error")
 	}
 	label.SetText(res)
+}
+
+func operation_input(label *widgets.QLabel, input *widgets.QLineEdit, operator string){		
+	if label.Text() == "0" {
+	label.SetText(input.Text())
+	} else {
+	operation(label, input.Text(), operator)
+}
+
 }
 
 func main() {
@@ -53,23 +62,22 @@ func main() {
 	input.SetPlaceholderText("1. write something")
 	layout.AddWidget(input, 1, 0)
 
-	// Create a button and add it to the layout
-	button := widgets.NewQPushButton2("2. click me", nil)
-	layout.AddWidget(button, 2, 0)
+	// Create a button and add it to theco layout
+	plus := widgets.NewQPushButton2("+", nil)
+	minus := widgets.NewQPushButton2("-", nil)
+	layout.AddWidget(plus, 2, 0)
+	layout.AddWidget(minus, 3, 0)
 	label := widgets.NewQLabel2("0", nil, 0)
 	layout.AddWidget(label, 0, 0)
 
 	// Connect event for button
-	button.ConnectClicked(func(checked bool) {
-		fmt.Println(label.Text() == "")
-
-		if label.Text() == "0" {
-
-			label.SetText(input.Text())
-		} else {
-			operation(label, input.Text())
-		}
+	plus.ConnectClicked(func(checked bool) {
+		operation_input(label, input, "+")
 	})
+	minus.ConnectClicked(func(checked bool) {
+		operation_input(label, input, "-")
+	})
+
 
 	// Set main widget as the central widget of the window
 	window.SetCentralWidget(mainWidget)
