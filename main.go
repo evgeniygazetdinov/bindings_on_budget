@@ -33,10 +33,10 @@ func operation(label *widgets.QLabel, input_text string, operator string) {
 
 func operation_input(label *widgets.QLabel, input *widgets.QLineEdit, operator string){		
 	if label.Text() == "0" {
-	label.SetText(input.Text())
+		label.SetText(input.Text())
 	} else {
-	operation(label, input.Text(), operator)
-}
+		operation(label, input.Text(), operator)
+	}
 
 }
 
