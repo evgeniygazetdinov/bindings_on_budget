@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/therecipe/qt/widgets"
+	"github.com/therecipe/qt/gui"
 	"os"
 	//"reflect"
 	"strconv"
@@ -40,13 +41,8 @@ func operation_input(label *widgets.QLabel, input *widgets.QLineEdit, operator s
 
 }
 
-func main() {
-	// Create application
-	app := widgets.NewQApplication(len(os.Args), os.Args)
-
-	// Create main window
-	window := widgets.NewQMainWindow(nil, 0)
-	window.SetWindowTitle("Hello World Example")
+func ui_shit(window *widgets.QMainWindow){
+	window.SetWindowTitle("budget")
 	window.SetMinimumSize2(200, 200)
 
 	// Create main layout
@@ -59,7 +55,8 @@ func main() {
 	// Create a line edit and add it to the layout
 	input := widgets.NewQLineEdit(nil)
 	//input.SetValidator(widgets.NewQRegExpValidator(widgets.NewQRegExp("[0-9]*"), &input));
-	input.SetPlaceholderText("1. write something")
+	input.SetValidator(gui.NewQIntValidator(input))
+	input.SetPlaceholderText("")
 	layout.AddWidget(input, 1, 0)
 
 	// Create a button and add it to theco layout
@@ -81,6 +78,15 @@ func main() {
 
 	// Set main widget as the central widget of the window
 	window.SetCentralWidget(mainWidget)
+}
+
+func main() {
+	// Create application
+	app := widgets.NewQApplication(len(os.Args), os.Args)
+
+	// Create main window
+	window := widgets.NewQMainWindow(nil, 0)
+	ui_shit(window)
 
 	// Show the window
 	window.Show()
