@@ -22,7 +22,6 @@ func ui_shit(window *widgets.QMainWindow){
 
 	// Create a line edit and add it to the layout
 	input := widgets.NewQLineEdit(nil)
-	//input.SetValidator(widgets.NewQRegExpValidator(widgets.NewQRegExp("[0-9]*"), &input));
 	input.SetValidator(gui.NewQIntValidator(input))
 	input.SetPlaceholderText("")
 	layout.AddWidget(input, 1, 0)
