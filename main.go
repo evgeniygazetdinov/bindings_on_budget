@@ -6,7 +6,8 @@ import (
 	"github.com/therecipe/qt/gui"
 	"os"
 	//"reflect"
-	cal "./src/lib"
+	cal "./src/lib/cal"
+	notif "./src/lib/notificator"
 )
 
 func ui_shit(window *widgets.QMainWindow){
@@ -33,13 +34,13 @@ func ui_shit(window *widgets.QMainWindow){
 	layout.AddWidget(minus, 3, 0)
 	label := widgets.NewQLabel2("0", nil, 0)
 	layout.AddWidget(label, 0, 0)
-
 	// Connect event for button
 	plus.ConnectClicked(func(checked bool) {
 		cal.OPERATION_INPUT(label, input, "+")
 	})
 	minus.ConnectClicked(func(checked bool) {
 		cal.OPERATION_INPUT(label, input, "-")
+		notif.NOTIFY_ME()
 	})
 
 
