@@ -33,6 +33,8 @@ func ui_shit(window *widgets.QMainWindow){
 	layout.AddWidget(plus, 2, 0)
 	layout.AddWidget(minus, 3, 0)
 	label := widgets.NewQLabel2("0", nil, 0)
+
+	time_label := widgets.NewQBasicTimer()
 	layout.AddWidget(label, 0, 0)
 	// Connect event for button
 	plus.ConnectClicked(func(checked bool) {
