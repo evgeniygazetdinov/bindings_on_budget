@@ -7,12 +7,33 @@ import (
 )
 
 // TODO add logic check db add separate functions
-func DB_RUNNER(){
-	db, _ := sql.Open("sqlite3", "./my_db.sql")
-	// statement, _ := db.Prepare("create table if not exists people(id integer primary key, name text ");
-	// statement.Exec()
-	// defer 
-	// statement, _ = db.Exec("insert into people(name) values(?)","my_name");
+func DB_RUNNER(){package db
+
+	import (
+		"database/sql"
+		"fmt"
+		_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
+	)
+	
+	func open(){
+		
+	}
+
+
+	func init_db(){
+
+	}
+
+
+
+
+	// TODO add logic check db add separate functions
+	func DB_RUNNER(){
+		db, _ := sql.Open("sqlite3", "./my_db.sql")
+		// statement, _ := db.Prepare("create table if not exists people(id integer primary key, name text ");
+		// statement.Exec()
+		// defer 
+		// statement, _ = db.Exec("insert into people(name) values(?)","my_name");
 	db, err := sql.Open("sqlite3", "store.db")
     if err != nil {
         panic(err)
