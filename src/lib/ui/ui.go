@@ -3,19 +3,22 @@ package ui
 import (
 	// "github.com/therecipe/qt/gui"
 	//"github.com/therecipe/qt/core"
-	"github.com/therecipe/qt/widgets"
-	"github.com/honeycombio/beeline-go/timer"
+	"github.com/therecipe/qt/widgets"	
 	// "reflect"
 	"fmt"
+	"time"
 	// cal "./src/lib/cal"
 	// notif "./src/lib/notificator"
 )
 const DURATION = 1500 
 
 
+
 func update_gui(label *widgets.QLabel){
 	label.SetText("1")
 }
+
+
 
 func UI_SHIT(window *widgets.QMainWindow){
 	window.SetWindowTitle("budget")
@@ -43,7 +46,7 @@ func UI_SHIT(window *widgets.QMainWindow){
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
 	startButton.ConnectClicked(func(checked bool) {
-		timer := timer.Start()
+
 		// timer := core.NewQBasicTimer()
 		// fooType := reflect.TypeOf(timer)
 		// for i := 0; i < fooType.NumMethod(); i++ {
@@ -52,8 +55,14 @@ func UI_SHIT(window *widgets.QMainWindow){
 		// }
 		// update_gui(time_label)
 		// timer.Start(DURATION)
-		dur := timer.Finish()
-		fmt.Printf("%g", dur)
+		channel := make(chan int)
+		func count_time(){
+			for i := 1; i <= DURATION; i++ {
+				channel<- i
+				time.Sleep(time.Second * 1)
+			}
+		} 
+		fmt.Println(channel)
 		update_gui(time_label)
 	})
 
@@ -61,4 +70,6 @@ func UI_SHIT(window *widgets.QMainWindow){
 	// Set main widget as the central widget of the window
 	window.SetCentralWidget(mainWidget)
 }
+
+
 
