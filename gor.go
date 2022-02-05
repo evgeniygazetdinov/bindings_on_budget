@@ -5,14 +5,7 @@ import (
     "time"
 )
 
-var start time.Time
-
-func init() {
-    start = time.Now()
-}
-
 func getChars(cs chan string, begin int ) {
-    
     minutes := (begin % 3600) / 60;
     seconds := begin % 60;
     timeString := fmt.Sprintf("%02d:%02d", minutes, seconds);
@@ -20,10 +13,9 @@ func getChars(cs chan string, begin int ) {
 
 }
 
-func main() {
-    fmt.Println("main execution started at time", time.Since(start))
+func FrootyTimer(timebegin int){
     my_chan := make(chan string)
-    begin := 1500
+    begin := timebegin
     for i:= 0; i<begin; i++ {
         go getChars(my_chan, begin)
         begin-=1;
@@ -31,7 +23,8 @@ func main() {
         fmt.Println(<-my_chan)
     }
     
-    
+}
 
-    fmt.Println("\nmain execution stopped at time", time.Since(start))
+func main() {
+    FrootyTimer(1500)
 }
