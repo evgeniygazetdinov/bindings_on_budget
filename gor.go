@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "time"
+    "math/rand"
 )
 
 func getChars(cs chan string, begin int ) {
@@ -25,6 +26,21 @@ func FrootyTimer(timebegin int){
     
 }
 
+func mY_counter(rutine_name string){
+    
+    for i:=0;i<1000;i++{
+        r := rand.Intn(4)
+        time.Sleep(time.Duration(r) * time.Second)
+        fmt.Println("whis is rutine is", rutine_name)
+        
+    }
+}
+
 func main() {
-    FrootyTimer(1500)
+   go mY_counter("one")
+   go mY_counter("two")
+   go mY_counter("three")
+   go mY_counter("four")
+   FrootyTimer(1500)
+   
 }
