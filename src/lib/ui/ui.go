@@ -5,19 +5,16 @@ import (
 	//"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/widgets"	
 	// "reflect"
-	"fmt"
-	"time"
 	// cal "./src/lib/cal"
-	// notif "./src/lib/notificator"
+	timer "./src/lib/frooty_timer"
 )
 const DURATION = 1500 
 
 
 
 func update_gui(label *widgets.QLabel){
-	label.SetText("1")
+	timer.FROOTY_TIMER(DURATION, label)
 }
-
 
 
 func UI_SHIT(window *widgets.QMainWindow){
@@ -55,15 +52,9 @@ func UI_SHIT(window *widgets.QMainWindow){
 		// }
 		// update_gui(time_label)
 		// timer.Start(DURATION)
-		channel := make(chan int)
-		func count_time(){
-			for i := 1; i <= DURATION; i++ {
-				channel<- i
-				time.Sleep(time.Second * 1)
-			}
-		} 
-		fmt.Println(channel)
-		update_gui(time_label)
+
+		go update_gui(time_label)
+		// TODO add handler for start and run 
 	})
 
 
