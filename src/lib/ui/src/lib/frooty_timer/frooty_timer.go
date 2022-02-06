@@ -1,9 +1,10 @@
-package main
+package frooty_timer
 
 import (
     "fmt"
     "time"
     "math/rand"
+    "github.com/therecipe/qt/widgets"	
 )
 
 func getChars(cs chan string, begin int ) {
@@ -14,14 +15,14 @@ func getChars(cs chan string, begin int ) {
 
 }
 
-func FrootyTimer(timebegin int){
+func FROOTY_TIMER(timebegin int, place_for_use *widgets.QLabel){
     my_chan := make(chan string)
     begin := timebegin
     for i:= 0; i<begin; i++ {
         go getChars(my_chan, begin)
         begin-=1;
         time.Sleep(1 * time.Second)
-        fmt.Println(<-my_chan)
+        place_for_use.SetText(<-my_chan)
     }
     
 }
@@ -34,13 +35,4 @@ func mY_counter(rutine_name string){
         fmt.Println("whis is rutine is", rutine_name)
         
     }
-}
-
-func main() {
-   go mY_counter("one")
-   go mY_counter("two")
-   go mY_counter("three")
-   go mY_counter("four")
-   FrootyTimer(1500)
-   
 }
