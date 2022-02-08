@@ -15,14 +15,26 @@ func getChars(cs chan string, begin int ) {
 
 }
 
-func FROOTY_TIMER(timebegin int, place_for_use *widgets.QLabel){
+func FROOTY_TIMER(timebegin int, place_for_use *widgets.QLabel, run_flag chan int){
     my_chan := make(chan string)
     begin := timebegin
-    for i:= 0; i<begin; i++ {
-        go getChars(my_chan, begin)
-        begin-=1;
-        time.Sleep(1 * time.Second)
-        place_for_use.SetText(<-my_chan)
+    for i:= 0; i<begin; i++{
+        select {
+        case value, ok := <-run_flag:
+            if ok {
+                if value > 0{
+                    return
+                }
+            } else {
+                fmt.Println("Channel closed!")
+            }
+        default:
+            go getChars(my_chan, begin)
+            begin-=1;
+            time.Sleep(1 * time.Second)
+            place_for_use.SetText(<-my_chan)
+        }
+      
     }
     
 }
