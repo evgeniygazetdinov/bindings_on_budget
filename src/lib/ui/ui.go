@@ -7,13 +7,14 @@ import (
 	// "reflect"
 	// cal "./src/lib/cal"
 	timer "./src/lib/frooty_timer"
+	"fmt"
 )
 const DURATION = 1500 
 
 
 
-func update_gui(label *widgets.QLabel){
-	timer.FROOTY_TIMER(DURATION, label)
+func update_gui(label *widgets.QLabel, start_stop_channel chan int){
+	timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
 }
 
 
@@ -42,6 +43,7 @@ func UI_SHIT(window *widgets.QMainWindow){
 	stopButton := widgets.NewQPushButton2("stop", nil)
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
+	stop_or_start := make(chan int) 
 	startButton.ConnectClicked(func(checked bool) {
 
 		// timer := core.NewQBasicTimer()
@@ -53,9 +55,15 @@ func UI_SHIT(window *widgets.QMainWindow){
 		// update_gui(time_label)
 		// timer.Start(DURATION)
 
-		go update_gui(time_label)
+		go update_gui(time_label, stop_or_start)
 		// TODO add handler for start and run 
 	})
+
+	stopButton.ConnectClicked(func(checked bool) {
+
+		fmt.Println("stop")
+		stop_or_start <- 4444
+	})	
 
 
 	// Set main widget as the central widget of the window
