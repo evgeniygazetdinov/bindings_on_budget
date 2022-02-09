@@ -4,17 +4,17 @@ import (
 	// "github.com/therecipe/qt/gui"
 	//"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/widgets"	
-	// "reflect"
 	// cal "./src/lib/cal"
 	timer "./src/lib/frooty_timer"
-	"fmt"
+	db "./src/lib/db"
 )
 const DURATION = 1500 
 
 
 
 func update_gui(label *widgets.QLabel, start_stop_channel chan int){
-	timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
+	go timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
+	
 }
 
 
@@ -36,34 +36,30 @@ func UI_SHIT(window *widgets.QMainWindow){
 	// layout.AddWidget(input, 1, 0)
 
 	// Create a button and add it to theco layout
+	currentTask := widgets.NewQLabel2(" ", nil, 0)
+	layout.AddWidget(currentTask, 0, 0)
+
 	time_label := widgets.NewQLabel2("0", nil, 0)
 	layout.AddWidget(time_label, 0, 0)
 	// Connect event for button
 	startButton := widgets.NewQPushButton2("start", nil)
 	stopButton := widgets.NewQPushButton2("stop", nil)
+	stopButton.SetDisabled(true)
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
 	stop_or_start := make(chan int) 
 	startButton.ConnectClicked(func(checked bool) {
-
-		// timer := core.NewQBasicTimer()
-		// fooType := reflect.TypeOf(timer)
-		// for i := 0; i < fooType.NumMethod(); i++ {
-		// method := fooType.Method(i)
-		// fmt.Println(method.Name)
-		// }
-		// update_gui(time_label)
-		// timer.Start(DURATION)
-
-		go update_gui(time_label, stop_or_start)
-		// TODO add handler for start and run 
+		update_gui(time_label, stop_or_start)
+		startButton.SetDisabled(true)
+		stopButton.SetDisabled(false)
 	})
 
 	stopButton.ConnectClicked(func(checked bool) {
-
-		fmt.Println("stop")
-		stop_or_start <- 4444
-	})	
+		stop_or_start <- 1
+		startButton.SetDisabled(false)
+		stopButton.SetDisabled(true)
+	})
+	db.DB_RUNNER()
 
 
 	// Set main widget as the central widget of the window

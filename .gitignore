@@ -2,3 +2,5 @@
 qtbox
 main
 .vscode
+*.db
+*.sql

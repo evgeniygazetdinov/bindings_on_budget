@@ -25,7 +25,7 @@ func NOTIFY_ME(my_string ... string){
         prompt := my_string[0]
         shellout(prompt)
     }else{
-        shellout(`notify-send  -t 0 "Bringing down the system"`)
+        shellout(`notify-send  -t 0 "Время закончилось"`)
     }
 
     err := cmd.Run()

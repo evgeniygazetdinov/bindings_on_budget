@@ -4,7 +4,8 @@ import (
     "fmt"
     "time"
     "math/rand"
-    "github.com/therecipe/qt/widgets"	
+    "github.com/therecipe/qt/widgets"
+    //notif "./src/lib/notificator"	
 )
 
 func getChars(cs chan string, begin int ) {
