@@ -7,6 +7,7 @@ import (
 	// cal "./src/lib/cal"
 	timer "./src/lib/frooty_timer"
 	db "./src/lib/db"
+	"fmt"
 )
 const DURATION = 1500 
 
@@ -28,38 +29,41 @@ func UI_SHIT(window *widgets.QMainWindow){
 	// Create main widget and set the layout
 	mainWidget := widgets.NewQWidget(nil, 0)
 	mainWidget.SetLayout(layout)
-
-	// Create a line edit and add it to the layout
-	// input := widgets.NewQLineEdit(nil)
-	// input.SetValidator(gui.NewQIntValidator(input))
-	// input.SetPlaceholderText("")
-	// layout.AddWidget(input, 1, 0)
-
+	input := widgets.NewQLineEdit(nil)
+	//input.SetValidator(gui.NewQIntValidator(input))
+	input.SetPlaceholderText("")
+	layout.AddWidget(input, 1, 0)
+	addButton := widgets.NewQPushButton2("добавить задачу", nil)
+	layout.AddWidget(addButton, 2, 0)
 	// Create a button and add it to theco layout
 	currentTask := widgets.NewQLabel2(" ", nil, 0)
 	layout.AddWidget(currentTask, 0, 0)
 
-	time_label := widgets.NewQLabel2("0", nil, 0)
-	layout.AddWidget(time_label, 0, 0)
+	timeLabel := widgets.NewQLabel2("0", nil, 0)
+	layout.AddWidget(timeLabel, 0, 0)
 	// Connect event for button
 	startButton := widgets.NewQPushButton2("start", nil)
 	stopButton := widgets.NewQPushButton2("stop", nil)
 	stopButton.SetDisabled(true)
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
-	stop_or_start := make(chan int) 
+	stopOrStart := make(chan int) 
 	startButton.ConnectClicked(func(checked bool) {
-		update_gui(time_label, stop_or_start)
+		update_gui(timeLabel, stopOrStart)
 		startButton.SetDisabled(true)
 		stopButton.SetDisabled(false)
 	})
 
 	stopButton.ConnectClicked(func(checked bool) {
-		stop_or_start <- 1
+		stopOrStart <- 1
 		startButton.SetDisabled(false)
 		stopButton.SetDisabled(true)
 	})
-	db.DB_RUNNER()
+	
+	addButton.ConnectClicked(func(checked bool) {
+		//TODO add some handler for check exists tasks
+		db.QUERY(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
+	})
 
 
 	// Set main widget as the central widget of the window
