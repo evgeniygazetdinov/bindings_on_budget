@@ -21,16 +21,18 @@ func db_init() *sql.DB{
 	if err != nil {
         panic(err)
 		fmt.Println(result)
-    }
-
-	fmt.Println(reflect.TypeOf(db))	
-	
-	 
+    }	 
 	 return db
 }
-func QUERY(myQueryString string){
+func QUERY_INPLACE(myQueryString string){
 	db := db_init()
 	db.Exec(myQueryString)
-	fmt.Println(myQueryString)
+	defer db.Close()
+}
+
+func QUERY(myQueryString string){
+	db := db_init()
+	result, error :=db.Exec(myQueryString)
+	return result
 	defer db.Close()
 }

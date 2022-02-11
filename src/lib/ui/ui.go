@@ -62,7 +62,8 @@ func UI_SHIT(window *widgets.QMainWindow){
 	
 	addButton.ConnectClicked(func(checked bool) {
 		//TODO add some handler for check exists tasks
-		db.QUERY(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
+		db.QUERY("select name from tasks")
+		db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
 	})
 
 
