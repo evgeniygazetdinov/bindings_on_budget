@@ -61,11 +61,13 @@ func UI_SHIT(window *widgets.QMainWindow){
 	})
 	
 	addButton.ConnectClicked(func(checked bool) {
-		//TODO add some handler for check exists tasks
-		db.QUERY("select name from tasks")
-		db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
-	})
+		//TODO add some handler for check exists tasks()
+		if input.Text() != " "{
 
+			db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
+		}
+
+	})
 
 	// Set main widget as the central widget of the window
 	window.SetCentralWidget(mainWidget)
