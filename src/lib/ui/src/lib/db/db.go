@@ -28,26 +28,39 @@ func QUERY_INPLACE(myQueryString string){
 	defer db.Close()
 }
 
-
-func get_all_exists_task(){
+func get_all_exists_task()map[int]string{
+	my_tasks := make(map[int]string)
 	db := db_init()
-	// Prepare Query
 	var (
 		id int
 		name string
 	)
-	rows, _ := db.Query("select tasks_id, name from tasks where tasks_id = ?", 1)
+	rows, _ := db.Query("select tasks_id, name from tasks;")
 	
 	for rows.Next() {
 		err := rows.Scan(&id, &name)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(id, name)
+		my_tasks[id] = name
 	}
 	defer rows.Close()
+	return my_tasks
 }
 
-func QUERY(){
-	get_all_exists_task()
+func task_already_exist_in_task_map(task_map map[int]string, task_for_check string) bool{
+	for _, v := range task_map {
+		if v == task_for_check{
+			return true
+		}
+	}
+	return false
+}
+
+// TODO rebamE ALL FUNC ON GOLANG STYLE(WHICH TYPING MORE PREFER IN GOLANG)
+func TASK_EXIST_IN_DB(taskForCheck string )bool{
+	return task_already_exist_in_task_map(get_all_exists_task(), taskForCheck)
+}
+func GET_LAST_TASK()string{
+
 }

@@ -11,8 +11,6 @@ import (
 )
 const DURATION = 1500 
 
-
-
 func update_gui(label *widgets.QLabel, start_stop_channel chan int){
 	go timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
 	
@@ -62,9 +60,9 @@ func UI_SHIT(window *widgets.QMainWindow){
 	
 	addButton.ConnectClicked(func(checked bool) {
 		//TODO add some handler for check exists tasks()
-		if input.Text() != " "{
-
+		if input.Text() != " " && !db.TASK_EXIST_IN_DB(input.Text()){
 			db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
+			currentTask.SetText(input.Text())
 		}
 
 	})
