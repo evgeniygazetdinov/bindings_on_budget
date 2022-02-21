@@ -28,14 +28,15 @@ func QUERY_INPLACE(myQueryString string){
 	defer db.Close()
 }
 
-func get_all_exists_task()map[int]string{
+
+func listByTask(my_query string)map[int]string{
 	my_tasks := make(map[int]string)
 	db := db_init()
 	var (
 		id int
 		name string
 	)
-	rows, _ := db.Query("select tasks_id, name from tasks;")
+	rows, _ := db.Query(my_query)
 	
 	for rows.Next() {
 		err := rows.Scan(&id, &name)
@@ -46,7 +47,17 @@ func get_all_exists_task()map[int]string{
 	}
 	defer rows.Close()
 	return my_tasks
+}	
+
+
+func get_all_exists_task()map[int]string{	
+	return listByTask("select tasks_id, name from tasks;")
 }
+
+func get_last_task()map[int]string{
+	return listByTask("select tasks_id, name from tasks order by desc limit 1;")
+}
+
 
 func task_already_exist_in_task_map(task_map map[int]string, task_for_check string) bool{
 	for _, v := range task_map {
@@ -63,4 +74,11 @@ func TASK_EXIST_IN_DB(taskForCheck string )bool{
 }
 func GET_LAST_TASK()string{
 
+	lastTask := get_last_task()
+	if len(lastTask) > 0{
+		for _, taskName := range lastTask{
+			return taskName
+		}
+	}
+	return " "
 }
