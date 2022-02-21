@@ -6,8 +6,8 @@ import (
 	"github.com/therecipe/qt/widgets"	
 	// cal "./src/lib/cal"
 	timer "./src/lib/frooty_timer"
-	db "./src/lib/db"
-	"fmt"
+	// db "./src/lib/db"
+	// "fmt"
 )
 const DURATION = 1500 
 
@@ -57,13 +57,15 @@ func UI_SHIT(window *widgets.QMainWindow){
 		startButton.SetDisabled(false)
 		stopButton.SetDisabled(true)
 	})
-	
+	currentTask.SetText(" ")
+	// fmt.Println(db.GET_LAST_TASK())
+
 	addButton.ConnectClicked(func(checked bool) {
 		//TODO add some handler for check exists tasks()
-		if input.Text() != " " && !db.TASK_EXIST_IN_DB(input.Text()){
-			db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
-			currentTask.SetText(input.Text())
-		}
+		// if input.Text() != " " && !db.TASK_EXIST_IN_DB(input.Text()){
+		// 	db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
+		// 	currentTask.SetText(input.Text())
+		// }
 
 	})
 
