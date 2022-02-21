@@ -50,18 +50,18 @@ func listByTask(my_query string)map[int]string{
 }	
 
 
-func get_all_exists_task()map[int]string{	
+func GetAllExistsTask()map[int]string{	
 	return listByTask("select tasks_id, name from tasks;")
 }
-
-func get_last_task()map[int]string{
-	return listByTask("select tasks_id, name from tasks order by desc limit 1;")
+// MOVE TO CONST AND GET THIS UP 
+func GetLastTask()map[int]string{
+	return listByTask("select tasks_id, name from tasks order by tasks_id desc limit 1;")
 }
 
 
-func task_already_exist_in_task_map(task_map map[int]string, task_for_check string) bool{
-	for _, v := range task_map {
-		if v == task_for_check{
+func TaskAlreadyExistITaskMap(taskMap map[int]string, taskForCheckIn string) bool{
+	for _, v := range taskMap {
+		if v == taskForCheckIn{
 			return true
 		}
 	}
@@ -70,15 +70,16 @@ func task_already_exist_in_task_map(task_map map[int]string, task_for_check stri
 
 // TODO rebamE ALL FUNC ON GOLANG STYLE(WHICH TYPING MORE PREFER IN GOLANG)
 func TASK_EXIST_IN_DB(taskForCheck string )bool{
-	return task_already_exist_in_task_map(get_all_exists_task(), taskForCheck)
+	return TaskAlreadyExistITaskMap(GetAllExistsTask(), taskForCheck)
 }
 func GET_LAST_TASK()string{
-
-	lastTask := get_last_task()
+	lastTask := GetLastTask()
+	fmt.Println(lastTask)
 	if len(lastTask) > 0{
 		for _, taskName := range lastTask{
 			return taskName
 		}
+			
 	}
 	return " "
 }
