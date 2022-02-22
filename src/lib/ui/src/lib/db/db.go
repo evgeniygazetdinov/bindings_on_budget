@@ -9,7 +9,7 @@ import (
 )
 
 	// TODO add logic check db add separate functions
-func db_init() *sql.DB{
+func DbInit() *sql.DB{
 	db, err := sql.Open("sqlite3", "store.db")
     if err != nil {
         panic(err)
@@ -23,15 +23,15 @@ func db_init() *sql.DB{
 	 return db
 }
 func QUERY_INPLACE(myQueryString string){
-	db := db_init()
+	db := DbInit()
 	db.Exec(myQueryString)
 	defer db.Close()
 }
 
-
+// move this to query sets
 func listByTask(my_query string)map[int]string{
 	my_tasks := make(map[int]string)
-	db := db_init()
+	db := DbInit()
 	var (
 		id int
 		name string
@@ -48,6 +48,7 @@ func listByTask(my_query string)map[int]string{
 	defer rows.Close()
 	return my_tasks
 }	
+
 
 
 func GetAllExistsTask()map[int]string{	
@@ -68,7 +69,10 @@ func TaskAlreadyExistITaskMap(taskMap map[int]string, taskForCheckIn string) boo
 	return false
 }
 
-// TODO rebamE ALL FUNC ON GOLANG STYLE(WHICH TYPING MORE PREFER IN GOLANG)
+
+// OUTPUT FUNCTIONS
+
+
 func TASK_EXIST_IN_DB(taskForCheck string )bool{
 	return TaskAlreadyExistITaskMap(GetAllExistsTask(), taskForCheck)
 }
