@@ -4,7 +4,7 @@ import (
     "fmt"
     "time"
     "github.com/therecipe/qt/widgets"
-    //notif "./src/lib/notificator"	
+    notif "./src/lib/notificator"	
 )
 
 func getChars(cs chan string, begin int ) {
@@ -23,6 +23,7 @@ func FROOTY_TIMER(timebegin int, place_for_use *widgets.QLabel, run_flag chan in
         case value, ok := <-run_flag:
             if ok {
                 if value > 0{
+                   notif.NOTIFY_ME()
                     return
                 }
             } else {

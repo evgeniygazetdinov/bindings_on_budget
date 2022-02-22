@@ -9,7 +9,7 @@ import (
 	db "./src/lib/db"
 	"fmt"
 )
-const DURATION = 1500 
+const DURATION = 20
 
 func update_gui(label *widgets.QLabel, start_stop_channel chan int){
 	go timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
