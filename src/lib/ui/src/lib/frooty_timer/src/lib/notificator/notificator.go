@@ -2,35 +2,16 @@ package notif
 
 import (
 	"os/exec"
-    "log"
-    "bytes"
+    "fmt"
 )
-
-const ShellToUse = "bash"
-
-func shellout(command string) (error, string, string) {
-    var stdout bytes.Buffer
-    var stderr bytes.Buffer
-    cmd := exec.Command(ShellToUse, "-c", command)
-    cmd.Stdout = &stdout
-    cmd.Stderr = &stderr
-    err := cmd.Run()
-    return err, stdout.String(), stderr.String()
-}
-
-
 func NOTIFY_ME(my_string ... string){
-    var cmd *exec.Cmd
+    var res *exec.Cmd 
     if len(my_string) > 0 {
         prompt := my_string[0]
-        shellout(prompt)
+        res = exec.Command("notify-send", prompt)
     }else{
-        shellout(`notify-send  -t 0 "Время закончилось"`)
+        res = exec.Command("notify-send", "Время вышло")
     }
-
-    err := cmd.Run()
-
-    if err != nil {
-        log.Fatal(err)
-    }
+    stdin, _ := res.CombinedOutput()
+    fmt.Println(string(stdin))
 }
