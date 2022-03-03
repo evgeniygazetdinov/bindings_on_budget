@@ -10,8 +10,8 @@ import (
 	"fmt"
 )
 const DURATION = 5
-func update_gui(label *widgets.QLabel, start_stop_channel chan int){
-	go timer.FROOTY_TIMER(DURATION, label, start_stop_channel)
+func update_gui(label *widgets.QLabel), startButton  *widgets.QButton){
+	go timer.FROOTY_TIMER(DURATION, label, startButton)
 	
 }
 
@@ -44,18 +44,17 @@ func UI_SHIT(window *widgets.QMainWindow){
 	stopButton.SetDisabled(true)
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
-	stopOrStart := make(chan int) 
+	stopOrStart := make(chan int)
+	stopButton.ConnectClicked(func(checked bool) {
+		startButton.SetDisabled(false)
+		// stopButton.SetDisabled(true)
+	}) 
 	startButton.ConnectClicked(func(checked bool) {
-		update_gui(timeLabel, stopOrStart)
+		update_gui(timeLabel, startButton)
 		startButton.SetDisabled(true)
-		stopButton.SetDisabled(false)
 	})
 
-	stopButton.ConnectClicked(func(checked bool) {
-		stopOrStart <- 1
-		startButton.SetDisabled(false)
-		stopButton.SetDisabled(true)
-	})
+
 	currentTask.SetText(db.GET_LAST_TASK())
 
 	addButton.ConnectClicked(func(checked bool) {
