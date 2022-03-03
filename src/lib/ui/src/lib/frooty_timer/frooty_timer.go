@@ -22,25 +22,25 @@ func getChars(cs chan string, begin int ) {
     return 
 }
 
-func workLoop(begin int, realBegin int, runnerChannel chan int,
+func workLoop(begin int, realBegin int,  startButton *widgets.QButton,
      timeLabel *widgets.QLabel){
     my_chan := make(chan string)
     defaultTime := realBegin
     for i:= 0; i<begin; i++{
-        select{
-        case value, ok := <-runnerChannel:
-            if ok {
-                if value < 0{
-                    begin = defaultTime
-                    runnerChannel <- 1
-                    return 
-        //         //    wg.Wait()
-                //    workLoop(begin, defaultTime, runnerChannel, timeLabel)
-                }
-            } else {
-                fmt.Println("Channel closed!")
-            }     
-        default:      
+        // select{
+        // case value, ok := <-runnerChannel:
+        //     if ok {
+        //         if value < 0{
+        //             begin = defaultTime
+        //             runnerChannel <- 1
+        //             return 
+        // //         //    wg.Wait()
+        //         //    workLoop(begin, defaultTime, runnerChannel, timeLabel)
+        //         }
+        //     } else {
+        //         fmt.Println("Channel closed!")
+        //     }     
+        // default:      
             // if realBegin == 0{
             //     close(my_chan)
             //     return 
@@ -59,9 +59,8 @@ func workLoop(begin int, realBegin int, runnerChannel chan int,
             fmt.Println("after minus ")
             fmt.Println(i)
             if i == defaultTime{
-                fmt.Println("over")
-                fmt.Println("here")
-            } 
+                startButton.SetDisabled(false)
+            // } 
 
                 
     }
@@ -70,9 +69,9 @@ func workLoop(begin int, realBegin int, runnerChannel chan int,
 
 }
 
-func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, runFlag chan int){
+func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, startButton *widgets.QButton){
     begin := calculateLimitOfTime(timeBegin)
-    fmt.Println(runFlag)
-    workLoop(begin, timeBegin, runFlag,
+    //fmt.Println(runFlag)
+    workLoop(begin, timeBegin, startButton,
          placeForUse)    
 }
