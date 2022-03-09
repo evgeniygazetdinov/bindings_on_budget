@@ -8,9 +8,10 @@ import (
 	timer "./src/lib/frooty_timer"
 	db "./src/lib/db"
 	"fmt"
+	"reflect"
 )
 const DURATION = 5
-func update_gui(label *widgets.QLabel), startButton  *widgets.QButton){
+func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton){
 	go timer.FROOTY_TIMER(DURATION, label, startButton)
 	
 }
@@ -44,12 +45,13 @@ func UI_SHIT(window *widgets.QMainWindow){
 	stopButton.SetDisabled(true)
 	layout.AddWidget(startButton, 2, 0)
 	layout.AddWidget(stopButton, 2, 0)
-	stopOrStart := make(chan int)
+	// stopOrStart := make(chan int)
 	stopButton.ConnectClicked(func(checked bool) {
 		startButton.SetDisabled(false)
 		// stopButton.SetDisabled(true)
 	}) 
 	startButton.ConnectClicked(func(checked bool) {
+		reflect.TypeOf(startButton)
 		update_gui(timeLabel, startButton)
 		startButton.SetDisabled(true)
 	})

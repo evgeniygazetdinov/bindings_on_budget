@@ -7,6 +7,7 @@ import (
   // notif "./src/lib/notificator"	
 //   "sync"
    // "math"
+//    "reflect"
 )
 
 func calculateLimitOfTime(beforeBegiTime int) int{
@@ -22,7 +23,7 @@ func getChars(cs chan string, begin int ) {
     return 
 }
 
-func workLoop(begin int, realBegin int,  startButton *widgets.QButton,
+func workLoop(begin int, realBegin int, startButton *widgets.QPushButton,
      timeLabel *widgets.QLabel){
     my_chan := make(chan string)
     defaultTime := realBegin
@@ -60,18 +61,17 @@ func workLoop(begin int, realBegin int,  startButton *widgets.QButton,
             fmt.Println(i)
             if i == defaultTime{
                 startButton.SetDisabled(false)
-            // } 
+            } 
 
                 
     }
 
 }
 
-}
 
-func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, startButton *widgets.QButton){
+func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, startButton *widgets.QPushButton){
     begin := calculateLimitOfTime(timeBegin)
     //fmt.Println(runFlag)
     workLoop(begin, timeBegin, startButton,
-         placeForUse)    
+             placeForUse)    
 }
