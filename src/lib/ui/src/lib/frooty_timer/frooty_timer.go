@@ -60,18 +60,20 @@ func workLoop(begin int, realBegin int, startButton *widgets.QPushButton,
             fmt.Println("after minus ")
             fmt.Println(i)
             if i == defaultTime{
+                //set here handle maybe holding button or 2way push 
                 startButton.SetDisabled(false)
             } 
-
-                
     }
 
 }
 
 
-func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, startButton *widgets.QPushButton){
+func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel, 
+                startButton *widgets.QPushButton,
+                startOrStopChanell chan int){
     begin := calculateLimitOfTime(timeBegin)
-    //fmt.Println(runFlag)
+    my_values :=<-startOrStopChanell
+    fmt.Println(my_values)
     workLoop(begin, timeBegin, startButton,
              placeForUse)    
 }
