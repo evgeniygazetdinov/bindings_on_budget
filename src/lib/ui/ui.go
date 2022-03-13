@@ -11,8 +11,8 @@ import (
 	"reflect"
 )
 const DURATION = 5
-func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton){
-	go timer.FROOTY_TIMER(DURATION, label, startButton)
+func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton, chanelPush chan int){
+	go timer.FROOTY_TIMER(DURATION, label, startButton, chanelPush)
 	
 }
 
@@ -41,19 +41,13 @@ func UI_SHIT(window *widgets.QMainWindow){
 	layout.AddWidget(timeLabel, 0, 0)
 	// Connect event for button
 	startButton := widgets.NewQPushButton2("start", nil)
-	stopButton := widgets.NewQPushButton2("stop", nil)
-	stopButton.SetDisabled(true)
 	layout.AddWidget(startButton, 2, 0)
-	layout.AddWidget(stopButton, 2, 0)
-	// stopOrStart := make(chan int)
-	stopButton.ConnectClicked(func(checked bool) {
-		startButton.SetDisabled(false)
-		// stopButton.SetDisabled(true)
-	}) 
+	// handler start 
+	isStartPushed := make(chan int)
+	isStartPushed <- 0 
+	fmt.Println(reflect.TypeOf(isStartPushed))
 	startButton.ConnectClicked(func(checked bool) {
-		reflect.TypeOf(startButton)
-		update_gui(timeLabel, startButton)
-		startButton.SetDisabled(true)
+		update_gui(timeLabel, startButton, isStartPushed)
 	})
 
 
@@ -64,7 +58,6 @@ func UI_SHIT(window *widgets.QMainWindow){
 			db.QUERY_INPLACE(fmt.Sprintf("insert into tasks(tasks_id, name) values((SELECT MAX(tasks_id)from tasks)+1,'%s');",input.Text()))
 			currentTask.SetText(input.Text())
 		}
-
 	})
 
 	// Set main widget as the central widget of the window
