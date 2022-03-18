@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"reflect"
 )
-const DURATION = 5
+const DURATION = 1200
 func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton, chanelPush chan int){
 	go timer.FROOTY_TIMER(DURATION, label, startButton, chanelPush)
 	
