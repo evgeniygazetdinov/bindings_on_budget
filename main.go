@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"github.com/therecipe/qt/widgets"
 	"os"
 	//"reflect"

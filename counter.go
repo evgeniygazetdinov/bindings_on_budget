@@ -1,12 +1,10 @@
 package main
 
 import (
+	ui "./src/lib/ui"
 	"github.com/therecipe/qt/widgets"
 	"os"
-	ui "./src/lib/ui"
 )
-
-
 
 func main() {
 	// Create application

@@ -1,11 +1,10 @@
 package lib
 
 import (
-	"strconv"
 	"fmt"
 	"github.com/therecipe/qt/widgets"
+	"strconv"
 )
-
 
 func equalize_operation(operator string, first_digit int, second_digit int) int {
 	var result int
@@ -30,7 +29,7 @@ func operation(label *widgets.QLabel, input_text string, operator string) {
 	label.SetText(res)
 }
 
-func OPERATION_INPUT(label *widgets.QLabel, input *widgets.QLineEdit, operator string){		
+func OPERATION_INPUT(label *widgets.QLabel, input *widgets.QLineEdit, operator string) {
 	if label.Text() == "0" {
 		label.SetText(input.Text())
 	} else {
