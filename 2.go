@@ -1,12 +1,13 @@
 package main
 
 import (
-	ui "./src/lib/ui"
-	"github.com/therecipe/qt/widgets"
+	ui "evgeniygazetdinov/bindings_on_budget/src/lib/ui"
 	"os"
+
+	"github.com/therecipe/qt/widgets"
 )
 
-func main() {
+func main22() {
 	// Create application
 	app := widgets.NewQApplication(len(os.Args), os.Args)
 

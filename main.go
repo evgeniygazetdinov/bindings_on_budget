@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/therecipe/qt/widgets"
 	"os"
+
+	"github.com/therecipe/qt/widgets"
 	//"reflect"
-	ui "./src/lib/ui"
+	ui "evgeniygazetdinov/bindings_on_budget/src/lib/ui"
 )
 
 func main() {
