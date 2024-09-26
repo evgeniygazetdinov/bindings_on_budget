@@ -2,8 +2,9 @@ package frooty_timer
 
 import (
 	"fmt"
-	"github.com/therecipe/qt/widgets"
 	"time"
+
+	"github.com/therecipe/qt/widgets"
 	// notif "./src/lib/notificator"
 	//   "sync"
 	// "math"
@@ -53,6 +54,7 @@ func workLoop(begin int, realBegin int, startButton *widgets.QPushButton,
 		begin -= 1
 		realBegin -= 1
 		fmt.Println(i)
+		startButton.SetText("stop")
 		if i == defaultTime {
 			//set here handle maybe holding button or 2way push
 			startButton.SetDisabled(false)
@@ -62,11 +64,9 @@ func workLoop(begin int, realBegin int, startButton *widgets.QPushButton,
 }
 
 func FROOTY_TIMER(timeBegin int, placeForUse *widgets.QLabel,
-	startButton *widgets.QPushButton,
-	startOrStopChanell chan int) {
+	startButton *widgets.QPushButton) {
 	begin := calculateLimitOfTime(timeBegin)
-	my_values := <-startOrStopChanell
-	fmt.Println(my_values)
-	workLoop(begin, timeBegin, startButton,
+	go workLoop(begin, timeBegin, startButton,
 		placeForUse)
+
 }

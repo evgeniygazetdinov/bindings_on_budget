@@ -13,8 +13,8 @@ import (
 
 const DURATION = 1200
 
-func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton, chanelPush chan int) {
-	timer.FROOTY_TIMER(DURATION, label, startButton, chanelPush)
+func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton) {
+	timer.FROOTY_TIMER(DURATION, label, startButton)
 }
 
 func UI_SHIT(window *widgets.QMainWindow) {
@@ -42,13 +42,16 @@ func UI_SHIT(window *widgets.QMainWindow) {
 	// Connect event for button
 	startButton := widgets.NewQPushButton2("start", nil)
 	layout.AddWidget(startButton, 2, 0)
-	// // handler start
-	// isStartPushed := make(chan int)
-	// isStartPushed <- 0
+	// handler start
+	isStartPushed := true
 	// fmt.Println(reflect.TypeOf(isStartPushed))
-	// startButton.ConnectClicked(func(checked bool) {
-	// 	update_gui(timeLabel, startButton, isStartPushed)
-	// })
+	startButton.ConnectClicked(func(checked bool) {
+		if isStartPushed {
+			isStartPushed = false
+			update_gui(timeLabel, startButton)
+		}
+
+	})
 
 	// currentTask.SetText(db.GET_LAST_TASK())
 
