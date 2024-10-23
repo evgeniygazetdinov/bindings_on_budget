@@ -5,6 +5,7 @@ import (
 	//"github.com/therecipe/qt/core"
 
 	timer "evgeniygazetdinov/bindings_on_budget/src/lib/ui/src/lib/frooty_timer"
+	"fmt"
 
 	"github.com/therecipe/qt/widgets"
 	// cal "./src/lib/cal"
@@ -13,8 +14,21 @@ import (
 
 const DURATION = 1200
 
-func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton) {
-	timer.FROOTY_TIMER(DURATION, label, startButton)
+func update_gui(label *widgets.QLabel, startButton *widgets.QPushButton, chanelPush chan bool) {
+	timer.FROOTY_TIMER(DURATION, label, startButton, chanelPush)
+
+}
+
+func myCounter() func() int {
+	i := 0
+
+	return func() int {
+		i++
+		if i > 3 {
+			i = 0
+		}
+		return i
+	}
 }
 
 func UI_SHIT(window *widgets.QMainWindow) {
@@ -43,14 +57,35 @@ func UI_SHIT(window *widgets.QMainWindow) {
 	startButton := widgets.NewQPushButton2("start", nil)
 	layout.AddWidget(startButton, 2, 0)
 	// handler start
-	isStartPushed := true
+	// isStartPushed := make(chan bool, 10)
 	// fmt.Println(reflect.TypeOf(isStartPushed))
-	startButton.ConnectClicked(func(checked bool) {
-		if isStartPushed {
-			isStartPushed = false
-			update_gui(timeLabel, startButton)
-		}
+	isStartPushed := true
+	firstStarted := true
+	counter := myCounter()
 
+	startButton.ConnectClicked(func(checked bool) {
+		fmt.Println(isStartPushed)
+		chanToStop := make(chan bool, 1000)
+		if isStartPushed {
+			fmt.Println(counter())
+			isStartPushed = false
+			startButton.SetText("stop")
+			chanToStop <- false
+			if firstStarted {
+				fmt.Println(counter())
+				firstStarted = false
+
+				update_gui(timeLabel, startButton, chanToStop)
+			}
+
+		} else {
+			fmt.Println(counter())
+			isStartPushed = true
+			startButton.SetText("start")
+			chanToStop <- true
+		}
+		//
+		// }
 	})
 
 	// currentTask.SetText(db.GET_LAST_TASK())
